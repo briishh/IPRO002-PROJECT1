@@ -241,6 +241,23 @@ class ShoppingCart {
     public User getOwner(){
         return this.owner;
     }
+        public void checkout() {
+        if (this.cart.isEmpty()) {
+            System.out.println("Cart has no items.");
+        } else {
+            String cartItems = "";
+            for (int i = 0; i < this.cart.size(); i++) {
+                cartItems += this.cart.get(i).getProductName();
+                if (i < this.cart.size() - 1) {
+                    cartItems += ",";
+                }
+                System.out.println("You are checking out: " + cartItems + ". Your total is: " + cartPrice
+                        + ". Thank you for shopping with us.");
+            }
+        }
+
+    }
+}
 }
 
 
