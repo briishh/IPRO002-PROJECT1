@@ -49,10 +49,12 @@ interface Rewardable {
 // GROCERY STORE
 class GroceryStore implements StockManagement, ProductSearch {
     List<Product> productStock;
+    List<Product> rewardItemStock;
     Map<ProductType, List<Product>> productFilter;
 
     GroceryStore() {
         this.productStock = new ArrayList<>();
+        this.rewardItemStock = new ArrayList<>();
 
         this.productFilter = new HashMap<>();
         this.productFilter.put(ProductType.FRUIT, new ArrayList<>());
@@ -62,6 +64,13 @@ class GroceryStore implements StockManagement, ProductSearch {
         this.productFilter.put(ProductType.FROZEN, new ArrayList<>());
         this.productFilter.put(ProductType.PANTRY, new ArrayList<>());
         this.productFilter.put(ProductType.HOUSEHOLD, new ArrayList<>());
+    }
+
+    public String displayRewardItems() {
+        String list = "--- Reward Products ---";
+        list += displayProducts(this.rewardItemStock);
+        list += "\n----------------------";
+        return list;
     }
 
     public String searchProducts() { // Product Search method
@@ -125,6 +134,13 @@ class GroceryStore implements StockManagement, ProductSearch {
         return displayProducts(filteredProducts);
     }
 
+    public String searchRewardProducts() {
+        String list = "--- Reward Products ---";
+        list += displayProducts(this.rewardItemStock);
+        list += "\n-------------------------";
+        return list;
+    }
+
     public String displayProducts(List<Product> products) { // a for loop that iterates through
         String list = ""; // the given product list (parameter)
         if (products.size() > 0) {
@@ -141,6 +157,9 @@ class GroceryStore implements StockManagement, ProductSearch {
         this.productStock.add(product); // and their corresponding HashMap
 
         this.productFilter.get(product.productType).add(product);
+        if (product instanceof RewardProduct) {
+            this.rewardItemStock.add(product);
+        }
     }
 
     public void removeProduct(Product product) {
@@ -402,7 +421,7 @@ class Menu {
             } else if (choice == 2) {
                 addProductToCart(user, groceryStore);
             } else if (choice == 3) {
-                System.out.println("Unfinished");
+                System.out.println(groceryStore.searchRewardProducts());
             } else if (choice == 4) {
                 break;
             } else {
